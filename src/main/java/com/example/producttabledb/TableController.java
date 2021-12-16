@@ -96,4 +96,12 @@ public class TableController implements Initializable {
 
 
     }
+
+    @FXML
+    public void editProduct(ActionEvent event){
+
+
+    }
+
+    // EDIT Button Update befehl
 }
