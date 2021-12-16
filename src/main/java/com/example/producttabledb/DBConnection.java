@@ -3,6 +3,7 @@ package com.example.producttabledb;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+
 import java.sql.*;
 
 
@@ -22,6 +23,11 @@ public class DBConnection {
     public void createConnection(String url, String user, String password) throws SQLException {
 
         this.connection = DriverManager.getConnection(url, user, password);
+
+    }
+
+    public void closeConnection() throws SQLException {
+        this.connection.close();
     }
 
     private ResultSet executeQuery(String sql) throws SQLException {
@@ -33,7 +39,6 @@ public class DBConnection {
     public void insert(Product product) throws SQLException {
         String sql = "INSERT INTO product (name, price, quantity) VALUE ('" + product.getName() + "', " + product.getPrice() + ", " + product.getQuantity() + ");";
         this.executeQuery(sql);
-
     }
 
     public ObservableList<Product> showAllDBProducts() throws SQLException {

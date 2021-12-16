@@ -27,7 +27,7 @@ public class TableController implements Initializable {
     @FXML
     private TextField tfQuantity, tfPrice, tfName;
     @FXML
-    private Button btnADD, btnDELETE, btnCHANGE;
+    private Button btnADD, btnDELETE, btnEDIT;
     @FXML
     private Text actionText;
 
@@ -49,6 +49,7 @@ public class TableController implements Initializable {
 
             table.setItems(conn.showAllDBProducts());
 
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -69,8 +70,11 @@ public class TableController implements Initializable {
         DBConnection dbConnection = new DBConnection();
         dbConnection.insert(product);
 
+
+
         table.setItems(dbConnection.showAllDBProducts());
         actionText.setText("Product wurde der DB hinzugefügt.");
+        dbConnection.closeConnection();
 
 
     }
@@ -87,6 +91,8 @@ public class TableController implements Initializable {
 
         table.setItems(dbConnection.showAllDBProducts());
         actionText.setText("Product wurde aus der DB gelöscht.");
+
+        dbConnection.closeConnection();
 
 
     }
