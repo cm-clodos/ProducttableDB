@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.producttabledb.TableController">
+   <children>
+      <TableView fx:id="table" layoutX="124.0" layoutY="68.0" prefHeight="190.0" prefWidth="559.0">
+        <columns>
+          <TableColumn fx:id="tcID" prefWidth="77.0" text="ID" />
+          <TableColumn fx:id="tcName" prefWidth="204.0" text="Name" />
+            <TableColumn fx:id="tcPrice" prefWidth="124.0" text="Price" />
+            <TableColumn fx:id="tcQuantity" prefWidth="151.0" text="Quantity" />
+        </columns>
+      </TableView>
+      <Label layoutX="218.0" layoutY="26.0" text="Database Producttable">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" layoutX="124.0" layoutY="473.0" prefHeight="100.0" prefWidth="329.0" spacing="20.0">
+         <children>
+            <Button fx:id="btnADD" mnemonicParsing="false" onAction="#addProduct" text="ADD">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnDELETE" mnemonicParsing="false" onAction="#deleteProduct" text="DELETE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnCHANGE" mnemonicParsing="false" text="CHANGE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <VBox layoutX="124.0" layoutY="279.0" prefHeight="171.0" prefWidth="63.0" spacing="20.0">
+         <children>
+            <Label text="Name:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Price:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Quantity:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="196.0" layoutY="279.0" prefHeight="200.0" prefWidth="162.0" spacing="15.0">
+         <children>
+            <TextField fx:id="tfName" layoutX="10.0" layoutY="10.0" />
+            <TextField fx:id="tfPrice" layoutX="10.0" layoutY="10.0" />
+            <TextField fx:id="tfQuantity" layoutX="10.0" layoutY="35.0" />
+         </children>
+      </VBox>
+      <Text fx:id="actionText" fill="#83b94e" layoutX="465.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+   </children>
+</AnchorPane>
