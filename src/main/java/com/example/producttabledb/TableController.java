@@ -37,12 +37,12 @@ public class TableController implements Initializable {
 
     private int ID;
 
-    ObservableList<Product> productsList = FXCollections.observableArrayList();
-
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        btnADD.setDisable(false);
+        btnDELETE.setDisable(false);
+        btnEDIT.setDisable(false);
 
         try {
             DBConnection dbConnection = new DBConnection();
@@ -54,6 +54,8 @@ public class TableController implements Initializable {
             table.setItems(dbConnection.showAllDBProducts());
             //erstes Produkt der tabelle wird ausgewählt.
             table.getSelectionModel().selectFirst();
+
+
 
             //verfolgt jeden neuen select und gibt die Value der productrows in den textfields wieder
             table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Product>() {
@@ -80,6 +82,7 @@ public class TableController implements Initializable {
     }
     @FXML
     public void addProductBtn(ActionEvent event) throws SQLException {
+
         createAddAlertBox();
 
     }
@@ -103,9 +106,11 @@ public class TableController implements Initializable {
 
     @FXML
     public void clearTextfields(ActionEvent event){
-        tfName.setText("");
-        tfPrice.setText("");
-        tfQuantity.setText("");
+       setTextfieldEmpty();
+       btnADD.setDisable(true);
+       btnDELETE.setDisable(true);
+       btnEDIT.setDisable(true);
+
     }
 
     public void setTextfieldEmpty(){
@@ -113,6 +118,23 @@ public class TableController implements Initializable {
         tfName.setText("");
         tfPrice.setText("");
         tfQuantity.setText("");
+    }
+
+    @FXML
+    public void handleKeyRelease(){
+        String textName = tfName.getText();
+        String textPrice = tfPrice.getText();
+        String textQuantity = tfQuantity.getText();
+        boolean disableButtons = textName.trim().isEmpty() || textPrice.trim().isEmpty()|| textQuantity.trim().isEmpty();
+
+        btnADD.setDisable(disableButtons);
+        btnDELETE.setDisable(disableButtons);
+        btnEDIT.setDisable(disableButtons);
+
+        /*String text = nameField.getText();
+        boolean disableButtons = text.isEmpty() || text.trim().isEmpty();
+        helloBtn.setDisable(disableButtons);
+        byeBtn.setDisable(disableButtons);*/
     }
 
     public void createDeleteAlertBox() throws SQLException {

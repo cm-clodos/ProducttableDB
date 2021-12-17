@@ -71,9 +71,9 @@
       </VBox>
       <VBox layoutX="196.0" layoutY="337.0" prefHeight="135.0" prefWidth="162.0" spacing="15.0">
          <children>
-            <TextField fx:id="tfName" layoutX="10.0" layoutY="10.0" />
-            <TextField fx:id="tfPrice" layoutX="10.0" layoutY="10.0" />
-            <TextField fx:id="tfQuantity" layoutX="10.0" layoutY="35.0" />
+            <TextField fx:id="tfName" layoutX="10.0" layoutY="10.0"  onKeyReleased="#handleKeyRelease"/>
+            <TextField fx:id="tfPrice" layoutX="10.0" layoutY="10.0" onKeyReleased="#handleKeyRelease"/>
+            <TextField fx:id="tfQuantity" layoutX="10.0" layoutY="35.0" onKeyReleased="#handleKeyRelease" />
          </children>
       </VBox>
       <Text fx:id="actionText" fill="#83b94e" layoutX="435.0" layoutY="353.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="234.4000244140625">
