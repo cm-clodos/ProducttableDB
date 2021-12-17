@@ -31,7 +31,7 @@ public class TableController implements Initializable {
     @FXML
     private TextField tfQuantity, tfPrice, tfName;
     @FXML
-    private Button btnADD, btnDELETE, btnEDIT;
+    private Button btnADD, btnDELETE, btnEDIT, btnCLEAR;
     @FXML
     private Text actionText;
 
@@ -99,6 +99,13 @@ public class TableController implements Initializable {
         ID = selectedProduct.getId();
         createEditAlertBox();
 
+    }
+
+    @FXML
+    public void clearTextfields(ActionEvent event){
+        tfName.setText("");
+        tfPrice.setText("");
+        tfQuantity.setText("");
     }
 
     public void setTextfieldEmpty(){
