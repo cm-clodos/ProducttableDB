@@ -58,4 +58,11 @@ public class DBConnection {
         this.executeQuery(sql);
 
     }
+    public void update(String sql) throws SQLException {
+        this.executeQuery(sql);
+    }
+
+
+
+
 }

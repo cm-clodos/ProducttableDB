@@ -44,24 +44,17 @@ public class TableController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
-            DBConnection conn = new DBConnection();
+            DBConnection dbConnection = new DBConnection();
             tcID.setCellValueFactory(new PropertyValueFactory<Product, Integer>("id"));
             tcName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
             tcPrice.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
             tcQuantity.setCellValueFactory(new PropertyValueFactory<Product, Integer>("quantity"));
 
-            table.setItems(conn.showAllDBProducts());
+            table.setItems(dbConnection.showAllDBProducts());
             //erstes Produkt der tabelle wird ausgewählt.
             table.getSelectionModel().selectFirst();
 
-
-
-            //Product selectedProduct = table.getSelectionModel().getSelectedItem();
-
-            //tfName.setText(selectedProduct.getName());
-           // tfPrice.setText(String.valueOf(selectedProduct.getPrice()));
-           // tfQuantity.setText(String.valueOf(selectedProduct.getQuantity()));
-
+            //verfolgt jeden neuen select und gibt die Value der productrows in den textfields wieder
             table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Product>() {
                 @Override
                 public void changed(ObservableValue<? extends Product> observableValue, Product product, Product t1) {
@@ -83,8 +76,6 @@ public class TableController implements Initializable {
 
 
 
-
-
     }
     @FXML
     public void addProduct(ActionEvent event) throws SQLException {
@@ -98,10 +89,11 @@ public class TableController implements Initializable {
         dbConnection.insert(product);
 
 
-
         table.setItems(dbConnection.showAllDBProducts());
         actionText.setText("Product wurde der DB hinzugefügt.");
         dbConnection.closeConnection();
+
+        setTextfieldEmpty();
 
 
     }
@@ -121,13 +113,37 @@ public class TableController implements Initializable {
 
         dbConnection.closeConnection();
 
+        setTextfieldEmpty();
+
 
     }
 
     @FXML
-    public void editProduct(ActionEvent event){
+    public void editProduct(ActionEvent event) throws SQLException {
+        Product selectedProduct = table.getSelectionModel().getSelectedItem();
+        ID = selectedProduct.getId();
+        String name = tfName.getText();
+        double price = Double.parseDouble(tfPrice.getText());
+        int quantity = Integer.parseInt(tfQuantity.getText());
 
 
+        String sql = "UPDATE product SET name='" + name + "', price=" + price + " , quantity=" + quantity + " WHERE id=" + ID;
+        DBConnection dbConnection = new DBConnection();
+        dbConnection.update(sql);
+
+        table.setItems(dbConnection.showAllDBProducts());
+        actionText.setText("Product wurde in der DB geändert.");
+        dbConnection.closeConnection();
+
+        setTextfieldEmpty();
+
+    }
+
+    public void setTextfieldEmpty(){
+
+        tfName.setText("");
+        tfPrice.setText("");
+        tfQuantity.setText("");
     }
 
     // EDIT Button Update befehl
