@@ -40,9 +40,10 @@ public class TableController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        btnADD.setDisable(false);
-        btnDELETE.setDisable(false);
-        btnEDIT.setDisable(false);
+        btnADD.setDisable(true);
+        btnDELETE.setDisable(true);
+        btnEDIT.setDisable(true);
+
 
         try {
             DBConnection dbConnection = new DBConnection();
@@ -66,6 +67,10 @@ public class TableController implements Initializable {
                         tfName.setText(selectedProduct.getName());
                         tfPrice.setText(String.valueOf(selectedProduct.getPrice()));
                         tfQuantity.setText(String.valueOf(selectedProduct.getQuantity()));
+
+                        btnDisableSelectMode();
+
+
                     }
                 }
 
@@ -113,12 +118,7 @@ public class TableController implements Initializable {
 
     }
 
-    public void setTextfieldEmpty(){
 
-        tfName.setText("");
-        tfPrice.setText("");
-        tfQuantity.setText("");
-    }
 
     @FXML
     public void handleKeyRelease(){
@@ -131,10 +131,24 @@ public class TableController implements Initializable {
         btnDELETE.setDisable(disableButtons);
         btnEDIT.setDisable(disableButtons);
 
-        /*String text = nameField.getText();
-        boolean disableButtons = text.isEmpty() || text.trim().isEmpty();
-        helloBtn.setDisable(disableButtons);
-        byeBtn.setDisable(disableButtons);*/
+    }
+
+    public void setTextfieldEmpty(){
+
+        tfName.setText("");
+        tfPrice.setText("");
+        tfQuantity.setText("");
+    }
+
+    public void btnDisableSelectMode(){
+        boolean disbaleButtons = table.getSelectionModel().getSelectedItems().isEmpty();
+        if (!disbaleButtons){
+            btnADD.setDisable(false);
+            btnDELETE.setDisable(false);
+            btnEDIT.setDisable(false);
+        }
+
+
     }
 
     public void createDeleteAlertBox() throws SQLException {
@@ -239,5 +253,5 @@ public class TableController implements Initializable {
 
     }
 
-    // EDIT Button Update befehl
+
 }
