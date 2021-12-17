@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TableController implements Initializable {
@@ -78,32 +79,89 @@ public class TableController implements Initializable {
 
     }
     @FXML
-    public void addProduct(ActionEvent event) throws SQLException {
-        Product product = new Product();
-        product.setName(tfName.getText());
-        product.setPrice(Double.parseDouble(tfPrice.getText()));
-        product.setQuantity(Integer.parseInt(tfQuantity.getText()));
-
-        //Product wird mit add in die DB gespeichert
-        DBConnection dbConnection = new DBConnection();
-        dbConnection.insert(product);
-
-
-        table.setItems(dbConnection.showAllDBProducts());
-        actionText.setText("Product wurde der DB hinzugefügt.");
-        dbConnection.closeConnection();
-
-        setTextfieldEmpty();
-
+    public void addProductBtn(ActionEvent event) throws SQLException {
+        createAddAlertBox();
 
     }
 
     @FXML
-    public void deleteProduct(ActionEvent event) throws SQLException {
+    public void deleteProductBtn(ActionEvent event) throws SQLException {
         Product selectedProduct = table.getSelectionModel().getSelectedItem();
         ID = selectedProduct.getId();
         System.out.println(ID);
+        createDeleteAlertBox();
 
+    }
+
+    @FXML
+    public void editProductBtn(ActionEvent event) throws SQLException {
+        Product selectedProduct = table.getSelectionModel().getSelectedItem();
+        ID = selectedProduct.getId();
+        createEditAlertBox();
+
+    }
+
+    public void setTextfieldEmpty(){
+
+        tfName.setText("");
+        tfPrice.setText("");
+        tfQuantity.setText("");
+    }
+
+    public void createDeleteAlertBox() throws SQLException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete?");
+        alert.setContentText("Warning! You are deleting products! Are you shure?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isEmpty()){
+            System.out.println("Alert closed");
+        } else if(result.get()==ButtonType.OK){
+            deleteInDB();
+        }else if (result.get()==ButtonType.CANCEL){
+            actionText.setText("Löschvorgang abgebrochen");
+            setTextfieldEmpty();
+        }
+
+
+    }
+    public void createEditAlertBox() throws SQLException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Edit?");
+        alert.setContentText("Warning! You are editing products! Are you shure?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isEmpty()){
+            System.out.println("Alert closed");
+        } else if(result.get()==ButtonType.OK){
+            editInDB();
+        }else if (result.get()==ButtonType.CANCEL){
+            actionText.setText("Editvorgang abgebrochen");
+            setTextfieldEmpty();
+        }
+
+
+    }
+
+    public void createAddAlertBox() throws SQLException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("ADD?");
+        alert.setContentText("Warning! You are adding products! Are you shure?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isEmpty()){
+            System.out.println("Alert closed");
+        } else if(result.get()==ButtonType.OK){
+            addInDB();
+        }else if (result.get()==ButtonType.CANCEL){
+            actionText.setText("Addingvorgang abgebrochen");
+            setTextfieldEmpty();
+        }
+
+
+    }
+    //DB funktionen
+    public void deleteInDB() throws SQLException {
         String sql = "DELETE FROM product WHERE id=" + ID;
         DBConnection dbConnection = new DBConnection();
         dbConnection.delete(sql);
@@ -114,18 +172,12 @@ public class TableController implements Initializable {
         dbConnection.closeConnection();
 
         setTextfieldEmpty();
-
-
     }
 
-    @FXML
-    public void editProduct(ActionEvent event) throws SQLException {
-        Product selectedProduct = table.getSelectionModel().getSelectedItem();
-        ID = selectedProduct.getId();
+    public void editInDB() throws SQLException {
         String name = tfName.getText();
         double price = Double.parseDouble(tfPrice.getText());
         int quantity = Integer.parseInt(tfQuantity.getText());
-
 
         String sql = "UPDATE product SET name='" + name + "', price=" + price + " , quantity=" + quantity + " WHERE id=" + ID;
         DBConnection dbConnection = new DBConnection();
@@ -139,11 +191,23 @@ public class TableController implements Initializable {
 
     }
 
-    public void setTextfieldEmpty(){
+    public void addInDB() throws SQLException {
+        Product product = new Product();
+        product.setName(tfName.getText());
+        product.setPrice(Double.parseDouble(tfPrice.getText()));
+        product.setQuantity(Integer.parseInt(tfQuantity.getText()));
 
-        tfName.setText("");
-        tfPrice.setText("");
-        tfQuantity.setText("");
+        //Product wird mit add in die DB gespeichert
+        DBConnection dbConnection = new DBConnection();
+        dbConnection.insert(product);
+
+        table.setItems(dbConnection.showAllDBProducts());
+        actionText.setText("Product wurde der DB hinzugefügt.");
+        dbConnection.closeConnection();
+
+        setTextfieldEmpty();
+
+
     }
 
     // EDIT Button Update befehl

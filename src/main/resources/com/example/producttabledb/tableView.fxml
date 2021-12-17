@@ -28,17 +28,17 @@
       </Label>
       <HBox alignment="CENTER" layoutX="124.0" layoutY="473.0" prefHeight="100.0" prefWidth="329.0" spacing="20.0">
          <children>
-            <Button fx:id="btnADD" mnemonicParsing="false" onAction="#addProduct" text="ADD">
+            <Button fx:id="btnADD" mnemonicParsing="false" onAction="#addProductBtn" text="ADD">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btnDELETE" mnemonicParsing="false" onAction="#deleteProduct" text="DELETE">
+            <Button fx:id="btnDELETE" mnemonicParsing="false" onAction="#deleteProductBtn" text="DELETE">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btnEDIT" mnemonicParsing="false" onAction="#editProduct" text="EDIT">
+            <Button fx:id="btnEDIT" mnemonicParsing="false" onAction="#editProductBtn" text="EDIT">
                <font>
                   <Font size="14.0" />
                </font>
