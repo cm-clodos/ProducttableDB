@@ -1,5 +1,7 @@
 package com.example.producttabledb;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,6 +13,7 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class TableController implements Initializable {
@@ -48,6 +51,30 @@ public class TableController implements Initializable {
             tcQuantity.setCellValueFactory(new PropertyValueFactory<Product, Integer>("quantity"));
 
             table.setItems(conn.showAllDBProducts());
+            //erstes Produkt der tabelle wird ausgewählt.
+            table.getSelectionModel().selectFirst();
+
+
+
+            //Product selectedProduct = table.getSelectionModel().getSelectedItem();
+
+            //tfName.setText(selectedProduct.getName());
+           // tfPrice.setText(String.valueOf(selectedProduct.getPrice()));
+           // tfQuantity.setText(String.valueOf(selectedProduct.getQuantity()));
+
+            table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Product>() {
+                @Override
+                public void changed(ObservableValue<? extends Product> observableValue, Product product, Product t1) {
+                    if (t1 != null) {
+                        Product selectedProduct = table.getSelectionModel().getSelectedItem();
+                        tfName.setText(selectedProduct.getName());
+                        tfPrice.setText(String.valueOf(selectedProduct.getPrice()));
+                        tfQuantity.setText(String.valueOf(selectedProduct.getQuantity()));
+                    }
+                }
+
+            });
+
 
 
         } catch (SQLException e) {
