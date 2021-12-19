@@ -269,21 +269,25 @@ public class TableController implements Initializable {
     }
 
     public void editInDB() throws SQLException {
-        String name = tfName.getText();
-        double price = Double.parseDouble(tfPrice.getText());
-        int quantity = Integer.parseInt(tfQuantity.getText());
+        boolean verified = verifyInputs();
 
-        String sql = "UPDATE product SET name='" + name + "', price=" + price + " , quantity=" + quantity + " WHERE id=" + ID;
-        DBConnection dbConnection = new DBConnection();
-        dbConnection.update(sql);
+        if (verified) {
+            String name = tfName.getText();
+            double price = Double.parseDouble(tfPrice.getText());
+            int quantity = Integer.parseInt(tfQuantity.getText());
+
+            String sql = "UPDATE product SET name='" + name + "', price=" + price + " , quantity=" + quantity + " WHERE id=" + ID;
+            DBConnection dbConnection = new DBConnection();
+            dbConnection.update(sql);
 
 
-        table.setItems(getProductList());
-        actionText.setText("Product wurde in der DB geändert.");
-        dbConnection.closeConnection();
+            table.setItems(getProductList());
+            actionText.setText("Product wurde in der DB geändert.");
+            dbConnection.closeConnection();
 
-        setTextfieldEmptyAndBtnDisabled();
+            setTextfieldEmptyAndBtnDisabled();
 
+        }
     }
 
     public void addInDB() throws SQLException {
