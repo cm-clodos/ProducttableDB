@@ -20,9 +20,13 @@ public class DBConnection {
 
     }
 
-    public void createConnection(String url, String user, String password) throws SQLException {
-
-        this.connection = DriverManager.getConnection(url, user, password);
+    public void createConnection(String url, String user, String password)  {
+       // (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD))
+        try {
+            this.connection = DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 

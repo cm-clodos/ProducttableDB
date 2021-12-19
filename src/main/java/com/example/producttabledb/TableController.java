@@ -57,7 +57,6 @@ public class TableController implements Initializable {
             table.getSelectionModel().selectFirst();
 
 
-
             //verfolgt jeden neuen select und gibt die Value der productrows in den textfields wieder
             table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Product>() {
                 @Override
@@ -77,17 +76,15 @@ public class TableController implements Initializable {
             });
 
 
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
-
     }
+
     @FXML
     public void addProductBtn(ActionEvent event) throws SQLException {
-
         createAddAlertBox();
 
     }
@@ -110,22 +107,21 @@ public class TableController implements Initializable {
     }
 
     @FXML
-    public void clearTextfields(ActionEvent event){
-       setTextfieldEmpty();
-       btnADD.setDisable(true);
-       btnDELETE.setDisable(true);
-       btnEDIT.setDisable(true);
+    public void clearTextfields(ActionEvent event) {
+        setTextfieldEmpty();
+        btnADD.setDisable(true);
+        btnDELETE.setDisable(true);
+        btnEDIT.setDisable(true);
 
     }
 
 
-
     @FXML
-    public void handleKeyRelease(){
+    public void handleKeyRelease() {
         String textName = tfName.getText();
         String textPrice = tfPrice.getText();
         String textQuantity = tfQuantity.getText();
-        boolean disableButtons = textName.trim().isEmpty() || textPrice.trim().isEmpty()|| textQuantity.trim().isEmpty();
+        boolean disableButtons = textName.trim().isEmpty() || textPrice.trim().isEmpty() || textQuantity.trim().isEmpty();
 
         btnADD.setDisable(disableButtons);
         btnDELETE.setDisable(disableButtons);
@@ -133,16 +129,16 @@ public class TableController implements Initializable {
 
     }
 
-    public void setTextfieldEmpty(){
+    public void setTextfieldEmpty() {
 
         tfName.setText("");
         tfPrice.setText("");
         tfQuantity.setText("");
     }
 
-    public void btnDisableSelectMode(){
+    public void btnDisableSelectMode() {
         boolean disbaleButtons = table.getSelectionModel().getSelectedItems().isEmpty();
-        if (!disbaleButtons){
+        if (!disbaleButtons) {
             btnADD.setDisable(false);
             btnDELETE.setDisable(false);
             btnEDIT.setDisable(false);
@@ -154,31 +150,32 @@ public class TableController implements Initializable {
     public void createDeleteAlertBox() throws SQLException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete?");
-        alert.setContentText("Warning! You are deleting products! Are you shure?");
+        alert.setContentText("Warning! You are deleting products! Are you sure?");
         Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.isEmpty()){
+        if (result.isEmpty()) {
             System.out.println("Alert closed");
-        } else if(result.get()==ButtonType.OK){
+        } else if (result.get() == ButtonType.OK) {
             deleteInDB();
-        }else if (result.get()==ButtonType.CANCEL){
+        } else if (result.get() == ButtonType.CANCEL) {
             actionText.setText("Löschvorgang abgebrochen");
             setTextfieldEmpty();
         }
 
 
     }
+
     public void createEditAlertBox() throws SQLException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Edit?");
-        alert.setContentText("Warning! You are editing products! Are you shure?");
+        alert.setContentText("Warning! You are editing products! Are you sure?");
         Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.isEmpty()){
+        if (result.isEmpty()) {
             System.out.println("Alert closed");
-        } else if(result.get()==ButtonType.OK){
+        } else if (result.get() == ButtonType.OK) {
             editInDB();
-        }else if (result.get()==ButtonType.CANCEL){
+        } else if (result.get() == ButtonType.CANCEL) {
             actionText.setText("Editvorgang abgebrochen");
             setTextfieldEmpty();
         }
@@ -189,20 +186,21 @@ public class TableController implements Initializable {
     public void createAddAlertBox() throws SQLException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("ADD?");
-        alert.setContentText("Warning! You are adding products! Are you shure?");
+        alert.setContentText("Warning! You are adding products! Are you sure?");
         Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.isEmpty()){
+        if (result.isEmpty()) {
             System.out.println("Alert closed");
-        } else if(result.get()==ButtonType.OK){
+        } else if (result.get() == ButtonType.OK) {
             addInDB();
-        }else if (result.get()==ButtonType.CANCEL){
+        } else if (result.get() == ButtonType.CANCEL) {
             actionText.setText("Addingvorgang abgebrochen");
             setTextfieldEmpty();
         }
 
 
     }
+
     //DB funktionen
     public void deleteInDB() throws SQLException {
         String sql = "DELETE FROM product WHERE id=" + ID;
