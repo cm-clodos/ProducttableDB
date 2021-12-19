@@ -328,8 +328,8 @@ public class TableController implements Initializable {
         boolean numberFormatException = false;
 
         try {
-            checkInputPriceQuantity(tfPrice.getText());
-            checkInputPriceQuantity(tfQuantity.getText());
+            checkInputPrice(tfPrice.getText());
+            checkInputQuantity(tfQuantity.getText());
         } catch (NumberFormatException ex) {
             numberFormatException = true;
             ex.printStackTrace();
@@ -346,8 +346,27 @@ public class TableController implements Initializable {
         return isVerify;
     }
 
+    public String checkInputPrice(String input){
+        int inputLength = input.length();
+        boolean isDigit = false;
 
-    public String checkInputPriceQuantity(String input) {
+        for (int i = 0; i < inputLength; i++) {
+            if (input.charAt(i) >= '0' && input.charAt(i) <= '9' || input.charAt(i) =='.') {
+                isDigit = true;
+            } else {
+                throw new NumberFormatException();
+            }
+        }
+        if (isDigit) {
+            return input;
+        }
+        return input;
+    }
+
+
+
+
+    public String checkInputQuantity(String input) {
 
         int inputLength = input.length();
         boolean isDigit = false;
@@ -364,6 +383,7 @@ public class TableController implements Initializable {
         }
         return input;
     }
+
 
     public String checkInputName(String input) {
         //Checkt ob String nur aus Zahlen besteht.
