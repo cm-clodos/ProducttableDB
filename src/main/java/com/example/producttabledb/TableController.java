@@ -287,31 +287,15 @@ public class TableController implements Initializable {
     }
 
     public void addInDB() throws SQLException {
-        Product product = new Product();
-        boolean illegalArgumentException = false;
-        try {
-            product.setName(checkInputName(tfName.getText()));
-        } catch (IllegalArgumentException exception) {
-            illegalArgumentException = true;
-            exception.printStackTrace();
-        }
 
-        boolean numberFormatException = false;
+        boolean verfied = verifyInputs();
 
-        try {
-            product.setPrice(Double.parseDouble(checkInputPriceQuantity(tfPrice.getText())));
-            product.setQuantity(Integer.parseInt(checkInputPriceQuantity(tfQuantity.getText())));
-        } catch (NumberFormatException ex) {
-            numberFormatException = true;
-            ex.printStackTrace();
-
-        }
-
-        if (numberFormatException || illegalArgumentException) {
-            createExceptionAlert();
-
-        } else {
+        if (verfied) {
+            Product product = new Product();
             //Product wird mit add in die DB gespeichert
+            product.setName(tfName.getText());
+            product.setPrice(Double.parseDouble(tfPrice.getText()));
+            product.setQuantity(Integer.parseInt(tfQuantity.getText()));
             DBConnection dbConnection = new DBConnection();
             dbConnection.insert(product);
             productList.add(product);
@@ -321,27 +305,60 @@ public class TableController implements Initializable {
             dbConnection.closeConnection();
 
             setTextfieldEmptyAndBtnDisabled();
+
+        }
+    }
+
+    public boolean verifyInputs() throws SQLException {
+
+        boolean isVerify = false;
+
+        boolean illegalArgumentException = false;
+        try {
+            checkInputName(tfName.getText());
+        } catch (IllegalArgumentException exception) {
+            illegalArgumentException = true;
+            exception.printStackTrace();
         }
 
+        boolean numberFormatException = false;
 
+        try {
+            checkInputPriceQuantity(tfPrice.getText());
+            checkInputPriceQuantity(tfQuantity.getText());
+        } catch (NumberFormatException ex) {
+            numberFormatException = true;
+            ex.printStackTrace();
+
+        }
+
+        if (numberFormatException || illegalArgumentException) {
+            createExceptionAlert();
+        } else {
+            isVerify = true;
+
+
+        }
+        return isVerify;
     }
+
 
     public String checkInputPriceQuantity(String input) {
 
-        //Checkt ob die Inputs Zahlen sind
-        char[] priceChars = input.toCharArray();
-        for (char e : priceChars) {
-            if (Character.isDigit(e)) {
-                return input;
+        int inputLength = input.length();
+        boolean isDigit = false;
+
+        for (int i = 0; i < inputLength; i++) {
+            if (input.charAt(i) >= '0' && input.charAt(i) <= '9') {
+                isDigit = true;
             } else {
                 throw new NumberFormatException();
             }
-
         }
-
+        if (isDigit) {
+            return input;
+        }
         return input;
-
-
     }
 
     public String checkInputName(String input) {
