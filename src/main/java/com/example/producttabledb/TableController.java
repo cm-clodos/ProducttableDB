@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -35,6 +36,8 @@ public class TableController implements Initializable {
     @FXML
     private Text actionText;
 
+    private ObservableList<Product> productList = FXCollections.observableArrayList();
+
     private int ID;
 
 
@@ -44,6 +47,9 @@ public class TableController implements Initializable {
         btnDELETE.setDisable(true);
         btnEDIT.setDisable(true);
 
+        //Checkbox für ID is visible ergänzen
+        tcID.setVisible(false);
+
 
         try {
             DBConnection dbConnection = new DBConnection();
@@ -51,8 +57,11 @@ public class TableController implements Initializable {
             tcName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
             tcPrice.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
             tcQuantity.setCellValueFactory(new PropertyValueFactory<Product, Integer>("quantity"));
+            getProductList();
 
-            table.setItems(dbConnection.showAllDBProducts());
+
+            table.setItems(productList);
+
             //erstes Produkt der tabelle wird ausgewählt.
             table.getSelectionModel().selectFirst();
 
@@ -90,11 +99,22 @@ public class TableController implements Initializable {
     }
 
     @FXML
-    public void deleteProductBtn(ActionEvent event) throws SQLException {
+    public void deleteProductBtn(ActionEvent event) {
         Product selectedProduct = table.getSelectionModel().getSelectedItem();
         ID = selectedProduct.getId();
         System.out.println(ID);
-        createDeleteAlertBox();
+        try {
+            createDeleteAlertBox();
+        } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
+            System.out.println("Produkt konnte nicht gelöscht werden");
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("Sie müssen ein Produkt auswählen!");
+
+        }
+
 
     }
 
@@ -108,7 +128,16 @@ public class TableController implements Initializable {
 
     @FXML
     public void clearTextfields(ActionEvent event) {
-        setTextfieldEmpty();
+        setTextfieldEmptyAndBtnDisabled();
+
+
+    }
+
+    public void setTextfieldEmptyAndBtnDisabled() {
+
+        tfName.setText("");
+        tfPrice.setText("");
+        tfQuantity.setText("");
         btnADD.setDisable(true);
         btnDELETE.setDisable(true);
         btnEDIT.setDisable(true);
@@ -129,12 +158,18 @@ public class TableController implements Initializable {
 
     }
 
-    public void setTextfieldEmpty() {
+    public ObservableList<Product> getProductList() {
+        try {
+            DBConnection dbConnection = new DBConnection();
+            productList = dbConnection.showAllDBProducts();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
 
-        tfName.setText("");
-        tfPrice.setText("");
-        tfQuantity.setText("");
+
+        return productList;
     }
+
 
     public void btnDisableSelectMode() {
         boolean disbaleButtons = table.getSelectionModel().getSelectedItems().isEmpty();
@@ -159,7 +194,7 @@ public class TableController implements Initializable {
             deleteInDB();
         } else if (result.get() == ButtonType.CANCEL) {
             actionText.setText("Löschvorgang abgebrochen");
-            setTextfieldEmpty();
+            setTextfieldEmptyAndBtnDisabled();
         }
 
 
@@ -177,7 +212,7 @@ public class TableController implements Initializable {
             editInDB();
         } else if (result.get() == ButtonType.CANCEL) {
             actionText.setText("Editvorgang abgebrochen");
-            setTextfieldEmpty();
+            setTextfieldEmptyAndBtnDisabled();
         }
 
 
@@ -195,9 +230,23 @@ public class TableController implements Initializable {
             addInDB();
         } else if (result.get() == ButtonType.CANCEL) {
             actionText.setText("Addingvorgang abgebrochen");
-            setTextfieldEmpty();
+            setTextfieldEmptyAndBtnDisabled();
         }
 
+
+    }
+
+    public void createExceptionAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error!");
+        alert.setContentText("Error! Your input Name: has ONLY Digits! \n OR Price/Quantity is NOT a number!");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isEmpty()) {
+            System.out.println("Alert closed");
+        } else if (result.get() == ButtonType.OK) {
+            System.out.println("Nix passiert");
+        }
 
     }
 
@@ -207,12 +256,16 @@ public class TableController implements Initializable {
         DBConnection dbConnection = new DBConnection();
         dbConnection.delete(sql);
 
-        table.setItems(dbConnection.showAllDBProducts());
+        //table.setItems(dbConnection.showAllDBProducts());
+        Product selectedProduct = table.getSelectionModel().getSelectedItem();
+        productList.remove(selectedProduct);
+
+        table.setItems(productList);
         actionText.setText("Product wurde aus der DB gelöscht.");
 
         dbConnection.closeConnection();
 
-        setTextfieldEmpty();
+        setTextfieldEmptyAndBtnDisabled();
     }
 
     public void editInDB() throws SQLException {
@@ -224,30 +277,86 @@ public class TableController implements Initializable {
         DBConnection dbConnection = new DBConnection();
         dbConnection.update(sql);
 
-        table.setItems(dbConnection.showAllDBProducts());
+
+        table.setItems(getProductList());
         actionText.setText("Product wurde in der DB geändert.");
         dbConnection.closeConnection();
 
-        setTextfieldEmpty();
+        setTextfieldEmptyAndBtnDisabled();
 
     }
 
     public void addInDB() throws SQLException {
         Product product = new Product();
-        product.setName(tfName.getText());
-        product.setPrice(Double.parseDouble(tfPrice.getText()));
-        product.setQuantity(Integer.parseInt(tfQuantity.getText()));
+        boolean illegalArgumentException = false;
+        try {
+            product.setName(checkInputName(tfName.getText()));
+        } catch (IllegalArgumentException exception) {
+            illegalArgumentException = true;
+            exception.printStackTrace();
+        }
 
-        //Product wird mit add in die DB gespeichert
-        DBConnection dbConnection = new DBConnection();
-        dbConnection.insert(product);
+        boolean numberFormatException = false;
 
-        table.setItems(dbConnection.showAllDBProducts());
-        actionText.setText("Product wurde der DB hinzugefügt.");
-        dbConnection.closeConnection();
+        try {
+            product.setPrice(Double.parseDouble(checkInputPriceQuantity(tfPrice.getText())));
+            product.setQuantity(Integer.parseInt(checkInputPriceQuantity(tfQuantity.getText())));
+        } catch (NumberFormatException ex) {
+            numberFormatException = true;
+            ex.printStackTrace();
 
-        setTextfieldEmpty();
+        }
 
+        if (numberFormatException || illegalArgumentException) {
+            createExceptionAlert();
+
+        } else {
+            //Product wird mit add in die DB gespeichert
+            DBConnection dbConnection = new DBConnection();
+            dbConnection.insert(product);
+            productList.add(product);
+
+            table.setItems(productList);
+            //actionText.setText("Product wurde der DB hinzugefügt.");
+            dbConnection.closeConnection();
+
+            setTextfieldEmptyAndBtnDisabled();
+        }
+
+
+    }
+
+    public String checkInputPriceQuantity(String input) {
+
+        //Checkt ob die Inputs Zahlen sind
+        char[] priceChars = input.toCharArray();
+        for (char e : priceChars) {
+            if (Character.isDigit(e)) {
+                return input;
+            } else {
+                throw new NumberFormatException();
+            }
+
+        }
+
+        return input;
+
+
+    }
+
+    public String checkInputName(String input) {
+        //Checkt ob String nur aus Zahlen besteht.
+        int inputLength = input.length();
+
+        for (int i = 0; i < inputLength; i++) {
+            if (input.charAt(i) >= '0' && input.charAt(i) <= '9') {
+                throw new IllegalArgumentException();
+            } else {
+                return input;
+            }
+
+        }
+        return input;
 
     }
 
