@@ -15,10 +15,10 @@
    <children>
       <TableView fx:id="table" layoutX="124.0" layoutY="68.0" prefHeight="253.0" prefWidth="559.0">
         <columns>
-          <TableColumn fx:id="tcID" prefWidth="77.0" text="ID" />
-          <TableColumn fx:id="tcName" prefWidth="204.0" text="Name" />
-            <TableColumn fx:id="tcPrice" prefWidth="124.0" text="Price" />
-            <TableColumn fx:id="tcQuantity" prefWidth="151.0" text="Quantity" />
+          <TableColumn fx:id="tcID" prefWidth="77.0" text="ID" visible="false" />
+          <TableColumn fx:id="tcName" prefWidth="264.0" text="Name" />
+            <TableColumn fx:id="tcPrice" prefWidth="149.0" text="Price" />
+            <TableColumn fx:id="tcQuantity" prefWidth="145.0" text="Quantity" />
         </columns>
       </TableView>
       <Label layoutX="269.0" layoutY="23.0" text="Database Producttable">
@@ -71,8 +71,8 @@
       </VBox>
       <VBox layoutX="196.0" layoutY="337.0" prefHeight="135.0" prefWidth="162.0" spacing="15.0">
          <children>
-            <TextField fx:id="tfName" layoutX="10.0" layoutY="10.0"  onKeyReleased="#handleKeyRelease"/>
-            <TextField fx:id="tfPrice" layoutX="10.0" layoutY="10.0" onKeyReleased="#handleKeyRelease"/>
+            <TextField fx:id="tfName" layoutX="10.0" layoutY="10.0" onKeyReleased="#handleKeyRelease" />
+            <TextField fx:id="tfPrice" layoutX="10.0" layoutY="10.0" onKeyReleased="#handleKeyRelease" />
             <TextField fx:id="tfQuantity" layoutX="10.0" layoutY="35.0" onKeyReleased="#handleKeyRelease" />
          </children>
       </VBox>

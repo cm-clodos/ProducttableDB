@@ -47,8 +47,6 @@ public class TableController implements Initializable {
         btnDELETE.setDisable(true);
         btnEDIT.setDisable(true);
 
-        //Checkbox für ID is visible ergänzen
-        tcID.setVisible(false);
 
 
         try {
