@@ -11,6 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import java.net.URL?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.producttabledb.TableController">
    <children>
       <TableView fx:id="table" layoutX="124.0" layoutY="68.0" prefHeight="253.0" prefWidth="559.0">
@@ -21,29 +22,29 @@
             <TableColumn fx:id="tcQuantity" prefWidth="145.0" text="Quantity" />
         </columns>
       </TableView>
-      <Label layoutX="269.0" layoutY="23.0" text="Database Producttable">
+      <Label id="main_label" layoutX="269.0" layoutY="23.0" text="Database Producttable">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
       <HBox alignment="CENTER" layoutX="84.0" layoutY="470.0" prefHeight="100.0" prefWidth="386.0" spacing="20.0">
          <children>
-            <Button fx:id="btnADD" mnemonicParsing="false" onAction="#addProductBtn" text="ADD">
+            <Button fx:id="btnADD" id="btn_add" mnemonicParsing="false" onAction="#addProductBtn" text="ADD">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btnDELETE" mnemonicParsing="false" onAction="#deleteProductBtn" text="DELETE">
+            <Button fx:id="btnDELETE" id="btn_delete" mnemonicParsing="false" onAction="#deleteProductBtn" text="DELETE">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btnEDIT" mnemonicParsing="false" onAction="#editProductBtn" text="EDIT">
+            <Button fx:id="btnEDIT" id="btn_edit" mnemonicParsing="false" onAction="#editProductBtn" text="EDIT">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btnCLEAR" layoutX="256.0" layoutY="45.0" mnemonicParsing="false" onAction="#clearTextfields" text="CLEAR">
+            <Button fx:id="btnCLEAR" id="btn_clear" layoutX="256.0" layoutY="45.0" mnemonicParsing="false" onAction="#clearTextfields" text="CLEAR">
                <font>
                   <Font size="14.0" />
                </font>
@@ -76,9 +77,13 @@
             <TextField fx:id="tfQuantity" layoutX="10.0" layoutY="35.0" onKeyReleased="#handleKeyRelease" />
          </children>
       </VBox>
-      <Text fx:id="actionText" fill="#83b94e" layoutX="435.0" layoutY="353.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="234.4000244140625">
+      <Text id="action_text" fx:id="actionText" fill="#83b94e" layoutX="435.0" layoutY="353.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="234.4000244140625">
          <font>
             <Font size="14.0" />
          </font></Text>
    </children>
+
+   <stylesheets>
+      <URL value="@styles.css"/>
+   </stylesheets>
 </AnchorPane>

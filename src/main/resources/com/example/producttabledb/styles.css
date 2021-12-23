@@ -1,0 +1,51 @@
+
+.button{
+    -fx-font-family: Tahoma;
+    -fx-font-weight:bold;
+    -fx-font-size: 16px;
+}
+
+#btn_add{
+    -fx-background-color: yellowgreen;
+
+}
+
+#btn_delete{
+    -fx-background-color: crimson;
+
+
+
+}
+
+#btn_edit{
+    -fx-background-color: goldenrod;
+
+
+
+}
+#btn_clear{
+    -fx-background-color: powderblue;
+
+
+
+}
+
+.label{
+    -fx-font-family: Tahoma;
+    -fx-font-size: 14px;
+
+}
+
+#main_label{
+    -fx-font-size: 18px;
+
+}
+#action_text{
+
+
+}
+
+.TableView{
+    -fx-size:16px;
+
+}
