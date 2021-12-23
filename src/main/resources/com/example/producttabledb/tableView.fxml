@@ -14,7 +14,7 @@
 <?import java.net.URL?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.producttabledb.TableController">
    <children>
-      <TableView fx:id="table" layoutX="124.0" layoutY="68.0" prefHeight="253.0" prefWidth="559.0">
+      <TableView id="table" fx:id="table" layoutX="124.0" layoutY="68.0" prefHeight="253.0" prefWidth="559.0">
         <columns>
           <TableColumn fx:id="tcID" prefWidth="77.0" text="ID" visible="false" />
           <TableColumn fx:id="tcName" prefWidth="264.0" text="Name" />

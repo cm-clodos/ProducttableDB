@@ -1,35 +1,36 @@
 
+/*Button Styles*/
 .button{
+    -fx-font-family: Tahoma;
+    -fx-font-weight:bold;
+    -fx-font-size: 14px;
+    -fx-border-width: 1px;
+    -fx-border-color: grey;
+}
+
+.button:hover{
     -fx-font-family: Tahoma;
     -fx-font-weight:bold;
     -fx-font-size: 16px;
 }
 
-#btn_add{
+#btn_add {
     -fx-background-color: yellowgreen;
 
 }
 
 #btn_delete{
     -fx-background-color: crimson;
-
-
-
 }
 
 #btn_edit{
     -fx-background-color: goldenrod;
-
-
-
 }
 #btn_clear{
     -fx-background-color: powderblue;
-
-
-
 }
 
+/* LabelStyles*/
 .label{
     -fx-font-family: Tahoma;
     -fx-font-size: 14px;
@@ -44,8 +45,26 @@
 
 
 }
-
+/*TableView-Styles*/
 .TableView{
     -fx-size:16px;
+    -fx-font-size:14px;
+
+}
+
+.table-row-cell:selected {
+    -fx-background-color: steelblue;
+    -fx-text-background-color: white;
+    -fx-font-size: 16px;
+}
+
+/*Textfields styles*/
+.text-field{
+
+
+}
+
+.text-field:focused{
+
 
 }
