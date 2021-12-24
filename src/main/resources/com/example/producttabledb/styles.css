@@ -6,6 +6,8 @@
     -fx-font-size: 14px;
     -fx-border-width: 1px;
     -fx-border-color: grey;
+    -fx-effect: dropshadow(gaussian, grey, 10, 0, 0, 1);
+    -fx-cursor: hand;
 }
 
 .button:hover{
@@ -42,13 +44,15 @@
 
 }
 #action_text{
-
+-fx-font-family: Tahoma;
+    -fx-font-weight: bold;
 
 }
 /*TableView-Styles*/
-.TableView{
+.table-view{
     -fx-size:16px;
     -fx-font-size:14px;
+    -fx-cursor: hand;
 
 }
 
@@ -58,13 +62,10 @@
     -fx-font-size: 16px;
 }
 
-/*Textfields styles*/
-.text-field{
-
-
-}
 
 .text-field:focused{
-
+    -fx-font-family: Tahoma;
+    -fx-font-size: 14px;
+    -fx-border-color: steelblue;
 
 }
